@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030305">
+<title>LNKXR – Architecture flow (v0.4)</title>
+<meta name="description" content="Vendor-neutral validation for power electronics and embedded systems.">
+<style>
+:root{--bg:#030305;--surface:#08080d;--surface2:#0c0b12;--text:#f5f5f7;--muted:#8d8d9c;--line:#20202b;--purple:#9d22ff;--purple2:#c04cff;--purple3:#5f0aa8;--max:1180px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}.wrap{width:min(var(--max),90vw);margin:auto}
+nav{position:fixed;inset:0 0 auto;z-index:20;background:linear-gradient(#030305f2,#030305b8,transparent);backdrop-filter:blur(10px)}nav .wrap{height:76px;display:flex;justify-content:space-between;align-items:center}.brand{font-size:14px;font-weight:900;letter-spacing:.23em}.navlinks{display:flex;gap:28px;color:#9696a3;font-size:11px;font-weight:700;letter-spacing:.14em}.navlinks a:hover{color:var(--purple2)}
+.hero{position:relative;min-height:100vh;display:grid;place-items:center;text-align:center;padding:125px 20px 65px;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,rgba(151,29,255,.24),rgba(72,12,115,.09) 28%,transparent 60%),linear-gradient(180deg,#020203,#050408 70%,#030305)}.tech-grid{position:absolute;inset:0;pointer-events:none;opacity:.28;background-image:linear-gradient(rgba(163,49,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(163,49,255,.08) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,transparent 3%,#000 30%,#000 72%,transparent 98%)}.scanline{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(188,73,255,.85),transparent);box-shadow:0 0 20px rgba(171,47,255,.65);animation:scan 8s linear infinite;opacity:.28}@keyframes scan{0%{top:10%}100%{top:90%}}.hero-inner{position:relative;z-index:2;width:min(1100px,94vw)}.hero-kicker{font-size:11px;letter-spacing:.23em;text-transform:uppercase;color:#9696a5;margin-bottom:22px}.logo-shell{position:relative;width:min(880px,92vw);margin:0 auto 22px}.logo-shell:after{content:"";position:absolute;left:38%;right:28%;bottom:15%;height:9%;background:#9e21ff;filter:blur(58px);opacity:.36;z-index:-1}.logo{width:100%;display:block;filter:drop-shadow(0 0 28px rgba(139,22,255,.15))}.lead{font-size:clamp(26px,3vw,43px);line-height:1.1;letter-spacing:-.035em;margin:8px auto 0;max-width:850px}.sub{max-width:760px;color:var(--muted);font-size:18px;line-height:1.7;margin:20px auto}.actions{display:flex;justify-content:center;gap:13px;flex-wrap:wrap;margin-top:32px}.btn{padding:13px 19px;border:1px solid #41414e;border-radius:999px;font-size:11px;font-weight:850;letter-spacing:.1em;transition:.25s}.btn:hover{border-color:#8c31cb;transform:translateY(-2px)}.btn.primary{border-color:#a128f4;background:linear-gradient(135deg,#7c0fd5,#a326ff);box-shadow:0 0 33px rgba(136,24,255,.28)}.signal-strip{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:34px auto 0}.sig{padding:7px 10px;border-radius:999px;border:1px solid #24242f;background:#07070b;color:#777787;font-size:9px;letter-spacing:.14em}.sig b{color:#c85fff;margin-right:4px}.hero-scroll{margin-top:50px;color:#626271;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.section{padding:125px 0;border-top:1px solid #111118;position:relative}.eyebrow{color:var(--purple2);font-size:11px;font-weight:850;letter-spacing:.18em;text-transform:uppercase}.big{font-size:clamp(42px,6vw,82px);letter-spacing:-.05em;line-height:1.03;max-width:1030px;margin:18px 0 28px}.muted{color:var(--muted);font-size:19px;line-height:1.68;max-width:820px}.punch{font-size:clamp(30px,4.2vw,56px);line-height:1.12;letter-spacing:-.035em;margin-top:70px}.purple{color:var(--purple2)}
+.tech-band{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:44px}.tech-chip{position:relative;overflow:hidden;border:1px solid #20202a;border-radius:15px;padding:23px;background:linear-gradient(145deg,#09090e,#060609);min-height:158px}.tech-chip:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:#9e21ff;opacity:.7}.tech-chip small{color:#b945ff;letter-spacing:.12em;font-weight:850;font-size:9px}.tech-chip strong{display:block;font-size:22px;margin-top:12px}.tech-chip span{display:block;color:#747484;font-size:11px;line-height:1.5;margin-top:7px}.terminal{margin-top:48px;border:1px solid #22222d;background:#050508;border-radius:16px;overflow:hidden}.terminal-top{padding:10px 15px;border-bottom:1px solid #191921;color:#6f6f7b;font-size:9px;letter-spacing:.14em}.terminal-body{padding:21px;color:#aaa;font:12px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace}.terminal-body .p{color:#b33cff}.terminal-body .w{color:#f0f0f4}.blink{animation:blink 1s steps(2,end) infinite}@keyframes blink{50%{opacity:0}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:55px}.card{border:1px solid #1d1d27;border-radius:18px;padding:34px;background:linear-gradient(145deg,#0a0a10,#060609);min-height:245px}.card h3{font-size:25px;margin:17px 0}.card p{color:var(--muted);line-height:1.7}.ai{background:radial-gradient(circle at 88% 50%,rgba(98,17,167,.23),transparent 35%)}.status{display:inline-flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid #30303b;border-radius:999px;color:#b2b2bf;font-size:10px;letter-spacing:.1em}.dot{width:8px;height:8px;border-radius:50%;background:#a227ff;box-shadow:0 0 14px #a227ff}.contact{font-size:clamp(42px,6vw,78px);line-height:1.03;letter-spacing:-.045em}footer{padding:55px 0;border-top:1px solid #17171e;color:#73737f;font-size:12px}.footerline{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:820px){.navlinks{display:none}.section{padding:90px 0}.tech-grid{background-size:40px 40px}.sub{font-size:16px}.flow-stage{padding:38px 22px}.flow-stage:before{left:50%;right:auto;top:7%;bottom:7%;height:auto;width:1px;background:linear-gradient(transparent,#a32cff 50%,transparent)}.flow-track{grid-template-columns:1fr;gap:27px}.flow-dot{margin-bottom:8px}.flow-core,.flow-packet{display:none}.tech-band{grid-template-columns:1fr 1fr}.tech-chip:last-child{grid-column:1/-1}.grid3{grid-template-columns:1fr}.logo-shell{width:100%}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.scanline,.flow-packet,.flow-dot,.blink{animation:none!important}}
+/* architecture flow (v0.4) */.arch{margin-top:60px;border:1px solid #22222d;border-radius:24px;overflow:hidden;
+  background:
+    linear-gradient(rgba(163,49,255,.05) 1px,transparent 1px) 0 0/40px 40px,
+    linear-gradient(90deg,rgba(163,49,255,.05) 1px,transparent 1px) 0 0/40px 40px,
+    radial-gradient(circle at 42% 50%,rgba(154,33,255,.13),transparent 40%),
+    linear-gradient(180deg,#09090e,#050508)}
+.arch-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 28px;border-bottom:1px solid #191921}
+.arch-title{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.arch-title b{color:var(--purple2);letter-spacing:.06em;margin-right:10px}
+.badge{padding:6px 11px;border-radius:999px;border:1px solid #7230a5;color:#d79bff;background:rgba(157,34,255,.1);font-size:9px;font-weight:850;letter-spacing:.16em}
+.arch-scroll{overflow-x:auto}
+.arch svg{display:block;width:100%;min-width:860px;height:auto}
+/* svg text */
+.t-h{font:800 11px Inter,system-ui,sans-serif;letter-spacing:.16em;fill:#b7b7c4}
+.t-b{font:800 13px Inter,system-ui,sans-serif;letter-spacing:.07em;fill:#f5f5f7}
+.t-s{font:500 10px Inter,system-ui,sans-serif;fill:#7c7c8c}
+.t-p{font:800 9px Inter,system-ui,sans-serif;letter-spacing:.14em;fill:#c04cff}
+.t-m{font:800 8px Inter,system-ui,sans-serif;letter-spacing:.14em;fill:#8a6aa8}
+.wire{fill:none;stroke:#5b2a8a;stroke-width:1.5}
+.pulse{fill:#e8b4ff}
+/* hardware illustrations */
+.hw{fill:#0b0a12;stroke:#6d3a9e;stroke-width:1.2}
+.hw-line{fill:none;stroke:#6d3a9e;stroke-width:1.1}
+.hw-acc{fill:none;stroke:#c04cff;stroke-width:1.4}
+.led{fill:#c04cff;animation:led 1.8s steps(1) infinite}
+.led.g2{animation-delay:.45s}.led.g3{animation-delay:.9s}.led.g4{animation-delay:1.35s}
+@keyframes led{0%{opacity:1}50%{opacity:.18}}
+.wave{stroke-dasharray:60;animation:wave 2.4s linear infinite}
+@keyframes wave{to{stroke-dashoffset:-120}}
+/* deployment: alternates ON-SITE / HOSTED */
+.tile-a,.dep-a{animation:fadeA 8s ease-in-out infinite}
+.tile-b,.dep-b{animation:fadeB 8s ease-in-out infinite}
+@keyframes fadeA{0%,42%{opacity:1}50%,92%{opacity:0}100%{opacity:1}}
+@keyframes fadeB{0%,42%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}
+/* kpi row */
+.arch .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 28px 26px}
+.arch .kpi{position:relative;border:1px solid #20202a;border-radius:14px;padding:16px 18px;background:#07070b}
+.arch .kpi:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;background:var(--purple);border-radius:2px}
+.arch .kpi small{display:block;color:#7c7c8c;font-size:9px;font-weight:850;letter-spacing:.16em}
+.arch .kpi strong{display:block;margin-top:6px;font-size:19px;color:var(--purple2);letter-spacing:-.01em}
+.arch .kpi span{display:block;margin-top:4px;color:#8d8d9c;font-size:12px;line-height:1.5}
+.arch .note{padding:0 28px 20px;color:#6b6b7a;font-size:10px;letter-spacing:.12em}
+.swipe{display:none;padding:10px 28px 0;color:#6b6b7a;font-size:10px;letter-spacing:.14em}
+@media(max-width:980px){.arch .kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:820px){.arch .kpis{grid-template-columns:1fr}.arch-head{flex-direction:column;align-items:flex-start;padding:20px}.swipe{display:block}.arch .kpis,.arch .note{padding-left:20px;padding-right:20px}}
+@media(prefers-reduced-motion:reduce){.pulse{display:none}.led,.wave,.tile-a,.tile-b,.dep-a,.dep-b{animation:none!important}.tile-b,.dep-b{opacity:0}}
+/* HaaS console (v0.4) – scoped to #haas */
+#haas{--ok:#5fe3a1;--warn:#ffb547;--bad:#ff4d6d}
+#haas .wrap{position:relative;z-index:1}
+#haas.haas{position:relative;padding:110px 0;overflow:hidden}
+#haas .haas-bg{position:absolute;inset:0;pointer-events:none}
+#haas .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+#haas .orb.a{width:520px;height:520px;left:-120px;top:280px;background:#5f0aa8}
+#haas .orb.b{width:420px;height:420px;right:-80px;top:520px;background:#9d22ff;opacity:.35}
+#haas .orb.c{width:360px;height:360px;left:40%;bottom:-120px;background:#2a1a8f;opacity:.45}
+#haas .haas-bg:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(163,49,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(163,49,255,.06) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(transparent,#000 25%,#000 80%,transparent)}
+#haas .console{margin-top:56px;padding:16px;border-radius:28px;border:1px solid rgba(255,255,255,.08);background:rgba(10,8,16,.35);box-shadow:0 40px 120px rgba(0,0,0,.6),inset 0 1px rgba(255,255,255,.06)}
+#haas .glass{position:relative;border-radius:18px;padding:16px 18px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:inset 0 1px rgba(255,255,255,.12),0 10px 30px rgba(0,0,0,.25)}
+#haas .glass h3{margin:0 0 12px;font-size:10px;font-weight:850;letter-spacing:.16em;color:#a9a9b8;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#haas .glass h3 em{font-style:normal;color:#6f6f7e;letter-spacing:.1em}
+#haas .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:14px}
+#haas .s3{grid-column:span 3}
+#haas .s4{grid-column:span 4}
+#haas .s5{grid-column:span 5}
+#haas .s7{grid-column:span 7}
+#haas .s8{grid-column:span 8}
+#haas .s9{grid-column:span 9}
+#haas .s12{grid-column:span 12}
+#haas .num{font-variant-numeric:tabular-nums}
+#haas .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+#haas .bar .ttl{font-weight:800;font-size:16px;margin-right:auto}
+#haas .bar .ttl b{color:var(--purple2);letter-spacing:.06em;margin-right:8px}
+#haas .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-size:10px;font-weight:750;letter-spacing:.1em;color:#c9c9d6;white-space:nowrap}
+#haas .live{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}#haas .estop{appearance:none;border:0;cursor:pointer;min-height:44px;padding:0 18px;border-radius:999px;background:radial-gradient(circle at 30% 30%,#ff6b84,#c3123a);color:#fff;font:850 11px Inter,system-ui,sans-serif;letter-spacing:.14em;box-shadow:0 0 0 3px rgba(255,77,109,.25),0 0 24px rgba(255,77,109,.35)}
+#haas .estop:focus-visible,#haas .btn:focus-visible,#haas input[type=range]:focus-visible{outline:2px solid var(--purple2);outline-offset:3px}
+#haas .path{display:grid;grid-template-columns:1fr 56px 1fr 56px 1fr 56px 1fr 56px 1fr;align-items:center}
+#haas .node{border-radius:14px;padding:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);text-align:center}
+#haas .node small{display:block;font-size:9px;font-weight:850;letter-spacing:.14em;color:var(--purple2)}
+#haas .node strong{display:block;font-size:18px;margin:5px 0 2px}
+#haas .node span{font-size:10px;color:#8d8d9c}
+#haas .node.hv{border-color:rgba(192,76,255,.45);box-shadow:0 0 24px rgba(157,34,255,.18)}
+#haas .link{position:relative;height:2px;background:linear-gradient(90deg,rgba(157,34,255,.2),rgba(192,76,255,.7),rgba(157,34,255,.2))}
+#haas .link:after{content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:#efc6ff;box-shadow:0 0 10px #c04cff;animation:run var(--d,1s) linear infinite}
+#haas .path.off .link:after{display:none}
+@keyframes run{to{left:calc(100% - 8px)}}#haas .sym{display:block;width:100%;max-width:92px;height:40px;margin:2px auto 6px;overflow:visible}
+#haas .sym .s{fill:none;stroke:#c04cff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#haas .sym .d{fill:none;stroke:#6d5a85;stroke-width:1.2;stroke-linecap:round}
+#haas .sym .f{fill:#c04cff}
+#haas .sine{animation:sine 1.2s linear infinite}
+@keyframes sine{to{transform:translateX(-24px)}}#haas .diode{animation:glow 1s ease-in-out infinite}
+#haas .diode:nth-of-type(2){animation-delay:.25s}
+#haas .diode:nth-of-type(3){animation-delay:.5s}
+#haas .diode:nth-of-type(4){animation-delay:.75s}
+#haas .diode .s{fill:rgba(192,76,255,.15)}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:1;filter:drop-shadow(0 0 3px #c04cff)}}#haas .cap-glow{opacity:var(--dc,0);filter:drop-shadow(0 0 4px #c04cff);transition:opacity .3s}
+#haas .flux{stroke-dasharray:3 4;animation:flux .6s linear infinite}
+@keyframes flux{to{stroke-dashoffset:-14}}#haas .chev{animation:chev 1.2s ease-in-out infinite;opacity:0}
+#haas .chev.c2{animation-delay:.3s}
+@keyframes chev{0%{opacity:0;transform:translateX(-3px)}50%{opacity:1}100%{opacity:0;transform:translateX(4px)}}#haas .path.off .sine,#haas .path.off .diode,#haas .path.off .flux,#haas .path.off .chev{animation-play-state:paused}
+#haas .path.off .diode,#haas .path.off .flux{opacity:.35}
+#haas .path.off .chev{opacity:0}
+#haas .state .st{font-size:22px;font-weight:850;letter-spacing:-.01em;margin:4px 0 10px}
+#haas .st.ok{color:var(--ok)}
+#haas .st.run{color:var(--purple2)}
+#haas .st.warn{color:var(--warn)}
+#haas .st.bad{color:var(--bad)}
+#haas .st.idle{color:#c9c9d6}
+#haas .kv{display:flex;justify-content:space-between;font-size:12px;color:#9a9aa8;padding:5px 0;border-top:1px solid rgba(255,255,255,.06)}
+#haas .kv b{color:#e9e9f0;font-weight:700}
+#haas .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+#haas .btn{appearance:none;cursor:pointer;min-height:40px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#eee;font:750 11px Inter,system-ui,sans-serif;letter-spacing:.08em}
+#haas .btn:hover{border-color:rgba(192,76,255,.6)}
+#haas .btn.primary{background:linear-gradient(135deg,#7c0fd5,#a326ff);border-color:#a128f4;box-shadow:0 0 22px rgba(136,24,255,.3)}
+#haas .btn:disabled{opacity:.35;cursor:not-allowed}
+#haas .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+#haas .kpi{border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08)}
+#haas .kpi small{display:block;font-size:9px;font-weight:850;letter-spacing:.14em;color:#8a8a99}
+#haas .kpi strong{display:block;font-size:clamp(20px,2.4vw,30px);letter-spacing:-.03em;margin-top:6px;white-space:nowrap}
+#haas .kpi span{font-size:11px;color:#8d8d9c}
+#haas .kpi.hl strong{color:var(--purple2)}
+#haas .chart{position:relative;height:170px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06);overflow:hidden}
+#haas .chart svg{position:absolute;inset:0;width:100%;height:100%}
+#haas .chart .gl{stroke:rgba(255,255,255,.06);stroke-width:1;vector-effect:non-scaling-stroke}
+#haas .ln{fill:none;stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+#haas .legend{display:flex;gap:14px;margin-top:8px;font-size:10px;color:#8d8d9c;letter-spacing:.08em}
+#haas .legend i{display:inline-block;width:14px;height:2px;margin-right:6px;vertical-align:middle}
+#haas .ctl{margin-bottom:12px}
+#haas .ctl label{display:flex;justify-content:space-between;font-size:11px;color:#a9a9b8;margin-bottom:6px}
+#haas .ctl label b{color:#f0f0f5}
+#haas input[type=range]{width:100%;accent-color:#a326ff;height:24px}
+#haas .faults{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#haas .faults .btn{min-height:38px;font-size:10px;border-color:rgba(255,181,71,.25)}
+#haas .faults .btn:hover{border-color:var(--warn)}
+#haas .bar-row{margin:9px 0}
+#haas .bar-row label{display:flex;justify-content:space-between;font-size:11px;color:#a9a9b8;margin-bottom:5px}
+#haas .bar-row label b{color:#eee}
+#haas .track{height:7px;border-radius:9px;background:rgba(255,255,255,.07);overflow:hidden}
+#haas .fill{height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#5f0aa8,#c04cff);transition:width .4s}
+#haas .fill.hot{background:linear-gradient(90deg,#c04cff,#ffb547)}
+#haas .seq{list-style:none;margin:0;padding:0}
+#haas .seq li{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:center;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,.06);color:#9a9aa8}
+#haas .seq li i{width:10px;height:10px;border-radius:50%;border:1.5px solid #4a4a58}
+#haas .seq li.run{color:#fff}
+#haas .seq li.run i{border-color:var(--purple2);background:var(--purple2);box-shadow:0 0 10px var(--purple2);animation:pulse 1s infinite}
+#haas .seq li.pass i{border-color:var(--ok);background:var(--ok)}
+#haas .seq li.pass em{color:var(--ok)}
+#haas .seq li.fail i{border-color:var(--bad);background:var(--bad)}
+#haas .seq li.fail em{color:var(--bad)}
+#haas .seq em{font-style:normal;font-size:9px;font-weight:850;letter-spacing:.12em}
+#haas .log{list-style:none;margin:0;padding:0;max-height:150px;overflow:auto;font:11px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#a9a9b8}
+#haas .log li span{color:#6f6f7e;margin-right:10px}
+#haas .log li.w{color:var(--warn)}
+#haas .log li.e{color:var(--bad)}
+#haas .log li.o{color:var(--ok)}
+#haas .safety{margin-top:10px;font-size:11px;color:#8d8d9c;line-height:1.5}
+#haas .note{margin-top:14px;color:#6b6b7a;font-size:10px;letter-spacing:.14em;text-align:center}
+@media(max-width:980px){#haas .s3,#haas .s4,#haas .s5,#haas .s7,#haas .s8,#haas .s9{grid-column:span 12}
+#haas .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+#haas .path{grid-template-columns:1fr;gap:0}
+#haas .link{width:2px;height:22px;margin:auto;background:linear-gradient(rgba(157,34,255,.2),rgba(192,76,255,.7),rgba(157,34,255,.2))}
+#haas .link:after{left:-3px;top:0;animation-name:rundown}
+}@keyframes rundown{to{top:calc(100% - 8px)}}@media(max-width:560px){#haas .kpis{grid-template-columns:1fr 1fr}
+#haas .console{padding:10px}
+#haas .bar .ttl{width:100%}
+}@media(prefers-reduced-motion:reduce){#haas .link:after,#haas .live,#haas .seq li.run i,#haas .sine,#haas .diode,#haas .flux,#haas .chev{animation:none}
+}
+/* HaaS NODE (v0.4) – scoped to #node */
+#node .big{font-size:clamp(38px,4.6vw,62px)}
+#node .nowrap{white-space:nowrap}
+#node .node-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center;margin-top:10px}
+#node .chip-dev{display:inline-flex;align-items:center;gap:9px;margin-top:6px;padding:9px 14px;border:1px solid #5f2a8c;border-radius:999px;background:rgba(157,34,255,.08);color:#d9a6ff;font-size:10px;font-weight:850;letter-spacing:.14em}
+#node .chip-dev i{width:8px;height:8px;border-radius:50%;background:#ffb547;box-shadow:0 0 12px #ffb547;animation:nodeBlink 1.4s ease-in-out infinite}
+@keyframes nodeBlink{50%{opacity:.3}}
+#node .specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:34px;border-top:1px solid #1a1a24}
+#node .spec{display:grid;grid-template-columns:86px minmax(0,1fr);gap:12px;padding:13px 0;border-bottom:1px solid #1a1a24;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
+#node .spec:nth-child(odd){padding-right:18px}
+#node .spec span{color:#6f6f7e;letter-spacing:.08em}
+#node .spec b{font-weight:500;color:#f0f0f4}
+#node .spec b.p{color:var(--purple2)}
+
+/* device */
+#node .stage{position:relative;display:flex;flex-direction:column;align-items:center}
+#node .stage:before{content:"";position:absolute;width:110%;height:120%;top:-10%;border-radius:50%;background:radial-gradient(closest-side,rgba(157,34,255,.22),transparent);pointer-events:none}
+#node .dev-wrap{--s:.93;width:calc(600px * var(--s));height:calc(196px * var(--s));position:relative}
+#node .dev{position:absolute;left:0;top:0;width:600px;transform:scale(var(--s));transform-origin:top left;display:flex;flex-direction:column;align-items:center}
+#node .lid{width:536px;height:42px;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(3,3,5,.55) 22px 24px),linear-gradient(180deg,#0f0f17,#1c1c28);border:1px solid #2a2a38;border-bottom:0;transform:perspective(520px) rotateX(52deg);transform-origin:bottom;border-radius:8px 8px 0 0}
+#node .body{display:flex;width:600px;height:142px;box-shadow:0 44px 70px rgba(0,0,0,.8)}
+#node .ear{width:38px;background:linear-gradient(90deg,#12121a,#1a1a26 50%,#101018);border:1px solid #2a2a38;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:12px 0}
+#node .ear.l{border-radius:7px 0 0 7px}#node .ear.r{border-radius:0 7px 7px 0}
+#node .screw{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#4a4a5c,#14141c);border:1px solid #08080d;display:grid;place-items:center}
+#node .screw:after{content:"";width:6px;height:1px;background:#08080d}
+#node .handle{width:12px;height:78px;border-radius:6px;background:linear-gradient(90deg,#22222e,#3a3a4c 45%,#1a1a24);border:1px solid #08080d;box-shadow:4px 4px 10px rgba(0,0,0,.6)}
+#node .front{position:relative;flex-grow:1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px),linear-gradient(180deg,#1a1a25,#0c0c13);border-top:1px solid #3a3a4e;border-bottom:1px solid #1a1a24;box-shadow:inset 0 1px rgba(255,255,255,.05),inset 0 -10px 20px rgba(0,0,0,.5);display:flex;align-items:center;gap:16px;padding:0 18px 6px}
+#node .brand-b{display:flex;flex-direction:column;gap:5px;width:96px}
+#node .brand-b .w{font-weight:800;font-size:11px;letter-spacing:.16em}
+#node .brand-b .w em,#node .brand-b .n em{font-style:normal;color:#9d22ff}
+#node .brand-b .n{font-weight:700;font-size:16px}
+#node .brand-b .n em{color:#c04cff}
+#node .brand-b .d{font:8px ui-monospace,Menlo,monospace;letter-spacing:.14em;color:#8d8d9c}
+#node .lcd{width:112px;height:62px;border-radius:4px;background:linear-gradient(160deg,#0a0612,#030305 60%);border:1px solid #2e2e3d;box-shadow:inset 0 0 14px rgba(157,34,255,.18);display:flex;flex-direction:column;justify-content:center;gap:4px;padding:0 10px;font:8px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#c04cff}
+#node .lcd .w{color:#f5f5f7}#node .lcd .m{color:#8d8d9c}
+#node .lcd .cur{animation:nodeBlink 1s steps(1) infinite}
+#node .grille{flex-grow:1;height:64px;border-radius:4px;background:radial-gradient(circle,#030305 2.3px,transparent 2.8px) 0 0/9px 9px,#12121b;border:1px solid #22222e;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
+#node .io{width:70px;height:62px;border-radius:4px;background:#0a0a10;border:1px solid #2a2a38;box-shadow:inset 0 2px 6px rgba(0,0,0,.6);display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:6px 0;font:7px ui-monospace,Menlo,monospace;letter-spacing:.12em;color:#8d8d9c}
+#node .io div{display:flex;gap:32px}
+#node .leds{display:flex;flex-direction:column;gap:6px;font:7px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#8d8d9c}
+#node .leds span{display:flex;align-items:center;gap:5px}
+#node .leds i{width:5px;height:5px;border-radius:50%;background:#9d22ff;box-shadow:0 0 8px #9d22ff}
+#node .leds .run i{animation:nodeBlink 1.2s steps(1) infinite}
+#node .leds .lnk i{background:#c04cff;box-shadow:0 0 8px #c04cff;animation:nodeBlink .5s steps(1) infinite}
+#node .leds .flt i{background:#22222e;box-shadow:none}
+#node .glowline{position:absolute;left:18px;right:18px;bottom:9px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#9d22ff 20%,#c04cff 80%,transparent);box-shadow:0 0 16px rgba(157,34,255,.8);animation:nodeSweep 3.2s ease-in-out infinite}
+@keyframes nodeSweep{50%{opacity:.45}}
+#node .floor{width:520px;height:18px;margin-top:6px;border-radius:50%;background:radial-gradient(closest-side,rgba(157,34,255,.25),transparent)}
+#node .dev-cap{position:relative;margin-top:22px;font:11px ui-monospace,Menlo,monospace;letter-spacing:.16em;color:#8d8d9c;text-align:center}
+
+/* build progress */
+#node .build{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:64px}
+#node .ms{position:relative;padding:18px 18px 18px 20px;border:1px solid #1d1d27;border-radius:14px;background:linear-gradient(145deg,#0a0a10,#060609)}
+#node .ms small{display:block;font-size:9px;font-weight:850;letter-spacing:.16em;color:#6f6f7e}
+#node .ms strong{display:block;margin:8px 0 6px;font-size:17px}
+#node .ms p{margin:0;color:#8d8d9c;font-size:12px;line-height:1.55}
+#node .ms.done small{color:#5fe3a1}
+#node .ms.now{border-color:#5f2a8c;box-shadow:0 0 30px rgba(157,34,255,.12)}
+#node .ms.now small{color:#ffb547}
+#node .ms.now:before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:2px;background:#ffb547;border-radius:2px}
+#node .api{margin-top:14px;color:#6b6b7a;font-size:10px;letter-spacing:.14em}
+
+@media(max-width:1100px){#node .node-grid{grid-template-columns:1fr;gap:40px}#node .dev-wrap{--s:.9}}
+@media(max-width:820px){#node .build{grid-template-columns:1fr 1fr}#node .dev-wrap{--s:.72}}
+@media(max-width:560px){#node .specs{grid-template-columns:1fr}#node .spec:nth-child(odd){padding-right:0}#node .build{grid-template-columns:1fr}#node .dev-wrap{--s:.54}}
+@media(max-width:380px){#node .dev-wrap{--s:.48}}
+@media(prefers-reduced-motion:reduce){#node .chip-dev i,#node .lcd .cur,#node .leds i,#node .glowline{animation:none}}
+/* HaaS NODE → HIL rack scene – scoped to #node */
+#node .journey{margin-top:70px;border:1px solid #22222d;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 75% 45%,rgba(154,33,255,.14),transparent 45%),linear-gradient(180deg,#09090e,#050508)}
+#node .journey-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:22px 28px;border-bottom:1px solid #191921}
+#node .journey-head strong{font-size:20px;letter-spacing:-.01em}
+#node .journey-head span{color:#8d8d9c;font-size:13px}
+#node .journey svg{display:block;width:100%;height:auto}
+#node .j-t{font:800 11px Inter,system-ui,sans-serif;letter-spacing:.16em;fill:#b7b7c4}
+#node .j-s{font:500 10px Inter,system-ui,sans-serif;fill:#7c7c8c}
+#node .j-m{font:600 8px ui-monospace,Menlo,monospace;letter-spacing:.1em;fill:#8d8d9c}
+#node .j-p{font:800 8px Inter,system-ui,sans-serif;letter-spacing:.14em;fill:#c04cff}
+#node .j-led{fill:#2a2236}
+/* 10 s cycle: bench → lift → slot in → lights on → drawer opens → closes → reset */
+#node .mover{animation:jMove 10s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes jMove{
+ 0%,14%{transform:translate(110px,310px) scale(1.45);opacity:1}
+ 36%{transform:translate(470px,70px) scale(1.2);opacity:1}
+ 54%{transform:translate(808px,86px) scale(1.06);opacity:1}
+ 62%,92%{transform:translate(820px,92px) scale(1);opacity:1}
+ 96%{transform:translate(820px,92px) scale(1);opacity:0}
+ 97%{transform:translate(110px,310px) scale(1.45);opacity:0}
+ 100%{transform:translate(110px,310px) scale(1.45);opacity:1}}
+#node .slot-ghost{animation:jGhost 10s linear infinite}
+@keyframes jGhost{0%,58%{opacity:1}62%,96%{opacity:0}100%{opacity:1}}
+#node .slot-on{animation:jOn 10s steps(1) infinite}
+@keyframes jOn{0%,62%{opacity:0}63%,95%{opacity:1}96%,100%{opacity:0}}
+#node .trail{stroke-dasharray:4 6;animation:jTrail 10s linear infinite}
+@keyframes jTrail{0%,12%{opacity:0}16%,56%{opacity:.8}62%,100%{opacity:0}}
+#node .bench-glow{animation:jBench 10s linear infinite}
+#node .bench-ghost{opacity:0;animation:jGhostB 10s linear infinite}
+@keyframes jGhostB{0%,20%{opacity:0}28%,92%{opacity:.7}96%,100%{opacity:0}}
+@keyframes jBench{0%,14%{opacity:1}24%,96%{opacity:.15}100%{opacity:1}}
+#node .drawer{animation:jDrawer 10s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes jDrawer{0%,66%{transform:translateY(0)}74%,86%{transform:translateY(50px)}92%,100%{transform:translateY(0)}}
+#node .tray{animation:jTray 10s cubic-bezier(.4,0,.2,1) infinite;transform-origin:960px 346px}
+@keyframes jTray{0%,66%{transform:scaleY(0);opacity:0}74%,86%{transform:scaleY(1);opacity:1}92%,100%{transform:scaleY(0);opacity:0}}
+#node .blink{animation:nodeBlink 1.2s steps(1) infinite}
+#node .blink.b2{animation-delay:.4s}#node .blink.b3{animation-delay:.8s}
+@media(prefers-reduced-motion:reduce){#node .mover,#node .slot-ghost,#node .slot-on,#node .trail,#node .bench-glow,#node .drawer,#node .tray,#node .blink,#node .bench-ghost{animation:none}
+ #node .mover{transform:translate(820px,92px)}#node .slot-ghost{opacity:0}}
+</style>
+</head>
+<body>
+<main>
+<section class="section" id="flow"><div class="wrap"><div class="eyebrow">The idea</div><h2 class="big">Let engineering <span class="purple">flow.</span></h2><p class="muted">Validation intent is defined once. It runs on SIL, CHIL, HIL and lab hardware through adapters, in your own lab or hosted by LNKXR. Tools and hardware can change. The engineering knowledge stays.</p><div class="arch"> <div class="arch-head"> <div class="arch-title"><b>LNKXR</b>Vendor-neutral validation architecture</div> <div class="badge">VALIDATION WITHOUT LOCK-IN</div> </div> <div class="swipe">SWIPE TO EXPLORE →</div> <div class="arch-scroll"> <svg viewBox="0 0 1180 630"role="img" aria-labelledby="archTitle archDesc"> <title id="archTitle">LNKXR validation architecture</title> <desc id="archDesc">Engineering documents are turned into structured knowledge and validation intent by LNKXR. The intent is executed through adapters on SIL, CHIL, HIL or lab hardware, deployed on-site at the customer or hosted by LNKXR as hardware-as-a-service, and collected as traceable evidence.</desc> <defs> <filter id="glow" x="-200%" y="-200%" width="500%" height="500%"> <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge> </filter> <linearGradient id="coreFill" x1="0" y1="0" x2="0" y2="1"> <stop offset="0" stop-color="#140a20"/><stop offset="1" stop-color="#09070d"/> </linearGradient> <!-- input -> AI extract --> <path id="p-in1" d="M222,170 C285,170 290,131 345,131"/> <path id="p-in2" d="M222,260 C290,260 285,131 345,131"/> <path id="p-in3" d="M222,350 C295,350 280,131 345,131"/> <!-- core vertical --> <path id="p-c1" d="M450,162 L450,220"/> <path id="p-c2" d="M450,282 L450,340"/> <!-- compute -> core --> <path id="p-gpu" d="M450,508 L450,470"/> <!-- intent -> targets --> <path id="p-t1" d="M555,371 C615,371 610,119 672,119"/> <path id="p-t2" d="M555,371 C615,371 610,209 672,209"/> <path id="p-t3" d="M555,371 C615,371 610,299 672,299"/> <path id="p-t4" d="M555,371 C615,371 610,389 672,389"/> <!-- targets -> evidence --> <path id="p-e1" d="M872,119 C915,119 920,260 963,260"/> <path id="p-e2" d="M872,209 C915,209 920,260 963,260"/> <path id="p-e3" d="M872,299 C915,299 920,260 963,260"/> <path id="p-e4" d="M872,389 C915,389 920,260 963,260"/> </defs> <!-- column labels --> <text x="140" y="44" text-anchor="middle" class="t-h">01 · KNOWLEDGE</text> <text x="450" y="44" text-anchor="middle" class="t-h">02 · LNKXR CORE</text> <text x="772" y="44" text-anchor="middle" class="t-h">03 · EXECUTION</text> <text x="1045" y="44" text-anchor="middle" class="t-h">04 · EVIDENCE</text> <!-- panels (drawn first) --> <rect x="40" y="80" width="200" height="370" rx="16" fill="#07070b" stroke="#22222d"/> <rect x="652" y="70" width="240" height="540" rx="18" fill="#07070b" stroke="#2a2236"/> <rect x="945" y="80" width="200" height="370" rx="16" fill="#07070b" stroke="#22222d"/> <!-- wires --> <use href="#p-in1" class="wire"/><use href="#p-in2" class="wire"/><use href="#p-in3" class="wire"/> <use href="#p-c1" class="wire"/><use href="#p-c2" class="wire"/> <use href="#p-t1" class="wire"/><use href="#p-t2" class="wire"/><use href="#p-t3" class="wire"/><use href="#p-t4" class="wire"/> <use href="#p-e1" class="wire"/><use href="#p-e2" class="wire"/><use href="#p-e3" class="wire"/><use href="#p-e4" class="wire"/> <!-- 01 knowledge --> <g> <rect x="58" y="142" width="164" height="56" rx="10" fill="#0c0b12" stroke="#2a2a36"/> <path d="M72,158 h14 l6,6 v18 h-20 z" fill="none" stroke="#9d22ff" stroke-width="1.4"/> <text x="100" y="166" class="t-b">REQUIREMENTS</text><text x="100" y="182" class="t-s">specs · standards</text> <rect x="58" y="232" width="164" height="56" rx="10" fill="#0c0b12" stroke="#2a2a36"/> <path d="M72,262 h6 l4,-8 l6,16 l4,-8 h6" fill="none" stroke="#9d22ff" stroke-width="1.4"/> <text x="100" y="256" class="t-b">SCHEMATICS</text><text x="100" y="272" class="t-s">nets · components</text> <rect x="58" y="322" width="164" height="56" rx="10" fill="#0c0b12" stroke="#2a2a36"/> <rect x="72" y="338" width="20" height="24" rx="2" fill="none" stroke="#9d22ff" stroke-width="1.4"/> <path d="M76,346 h12 M76,351 h12 M76,356 h8" stroke="#9d22ff" stroke-width="1.2"/> <text x="100" y="346" class="t-b">MANUALS</text><text x="100" y="362" class="t-s">datasheets · app notes</text> </g> <text x="140" y="420" text-anchor="middle" class="t-s">engineering documents</text> <!-- 02 core --> <rect x="325" y="70" width="250" height="400" rx="18" fill="url(#coreFill)" stroke="#7230a5" stroke-width="1.4"/> <rect x="325" y="70" width="250" height="400" rx="18" fill="none" stroke="#9d22ff" stroke-opacity=".25" stroke-width="6"/> <use href="#p-c1" class="wire"/><use href="#p-c2" class="wire"/> <g> <rect x="345" y="100" width="210" height="62" rx="12" fill="#0e0a16" stroke="#5f0aa8"/> <text x="365" y="126" class="t-p">LNKXR AI</text><text x="365" y="146" class="t-b">EXTRACT</text> <text x="535" y="146" text-anchor="end" class="t-s">local LLM</text> <rect x="345" y="220" width="210" height="62" rx="12" fill="#0e0a16" stroke="#5f0aa8"/> <text x="365" y="246" class="t-p">STRUCTURE</text><text x="365" y="266" class="t-b">KNOWLEDGE MODEL</text> <rect x="345" y="340" width="210" height="62" rx="12" fill="#150b22" stroke="#c04cff" stroke-width="1.4" filter="url(#glow)"/> <text x="365" y="366" class="t-p">DEFINE ONCE</text><text x="365" y="386" class="t-b">VALIDATION INTENT</text> </g> <text x="450" y="440" text-anchor="middle" class="t-s">traceable · reviewable · reusable</text> <!-- on-prem AI compute node --> <use href="#p-gpu" class="wire"/> <rect x="345" y="508" width="210" height="96" rx="14" fill="#07070b" stroke="#5f0aa8"/> <g> <!-- compact GPU appliance --> <rect x="362" y="528" width="74" height="54" rx="6" class="hw"/> <path class="hw-line" d="M370,538 h58 M370,544 h58 M370,550 h58 M370,556 h58 M370,562 h58"/> <rect x="368" y="569" width="44" height="7" rx="2" fill="#140a20" stroke="#6d3a9e" stroke-width=".8"/> <circle cx="426" cy="572.5" r="2.2" class="led"/> <circle cx="419" cy="572.5" r="2.2" class="led g3"/> <text x="452" y="544" class="t-p">AI COMPUTE</text> <text x="452" y="562" class="t-b">ON-PREM</text> <text x="452" y="578" class="t-s">GPU node · no cloud</text> </g> <!-- 03 execution targets --> <g> <rect x="672" y="90" width="200" height="58" rx="11" fill="#0e0a16" stroke="#9d22ff" stroke-width="1.2"/> <text x="690" y="116" class="t-b">SIL</text><text x="690" y="133" class="t-s">software-in-the-loop</text> <!-- SIL: terminal --> <rect x="818" y="104" width="40" height="30" rx="4" class="hw"/> <path class="hw-line" d="M818,111 h40"/> <path class="hw-acc" d="M823,118 l4,3 l-4,3"/><path class="hw-line" d="M830,125 h10 M823,129 h22"/> <rect x="672" y="180" width="200" height="58" rx="11" fill="#0e0a16" stroke="#9d22ff" stroke-width="1.2"/> <text x="690" y="206" class="t-b">CHIL</text><text x="690" y="223" class="t-s">real controller hardware</text> <!-- CHIL: controller board --> <rect x="816" y="193" width="44" height="32" rx="3" class="hw"/> <rect x="830" y="201" width="16" height="16" rx="2" fill="#150b22" stroke="#c04cff" stroke-width="1.2"/> <path class="hw-line" d="M833,198 v3 M838,198 v3 M843,198 v3 M833,217 v3 M838,217 v3 M843,217 v3 M827,205 h3 M827,213 h3 M846,205 h3 M846,213 h3 M820,198 v10 h7 M856,220 v-6 h-7"/> <circle cx="821" cy="221" r="1.8" class="led g2"/> <rect x="672" y="270" width="200" height="58" rx="11" fill="#0e0a16" stroke="#9d22ff" stroke-width="1.2"/> <text x="690" y="296" class="t-b">HIL</text><text x="690" y="313" class="t-s">real-time plant · I/O</text> <!-- HIL: rack --> <rect x="822" y="277" width="32" height="44" rx="3" class="hw"/> <path class="hw-line" d="M826,287 h24 M826,297 h24 M826,307 h24"/> <path class="hw-line" d="M835,282 h12 M835,292 h12 M835,302 h12 M835,312 h12" stroke-opacity=".6"/> <circle cx="829" cy="282" r="1.8" class="led"/><circle cx="829" cy="292" r="1.8" class="led g2"/> <circle cx="829" cy="302" r="1.8" class="led g3"/><circle cx="829" cy="312" r="1.8" class="led g4"/> <rect x="672" y="360" width="200" height="58" rx="11" fill="#0e0a16" stroke="#9d22ff" stroke-width="1.2"/> <text x="690" y="386" class="t-b">LAB / HW</text><text x="690" y="403" class="t-s">sources · loads · DUT</text> <!-- LAB: power supply with live waveform --> <rect x="812" y="374" width="48" height="30" rx="3" class="hw"/> <rect x="816" y="378" width="26" height="16" rx="1.5" fill="#07060b" stroke="#4a2a6a" stroke-width=".8"/> <path class="hw-acc wave" d="M817,386 l3,-5 l3,10 l3,-10 l3,10 l3,-10 l3,10 l3,-5 l2,0"/> <circle cx="850" cy="383" r="3.2" class="hw"/><circle cx="850" cy="395" r="3.2" class="hw"/> <path class="hw-line" d="M817,399 h6 M826,399 h6"/> </g> <text x="772" y="446" text-anchor="middle" class="t-s">connected through adapters</text> <!-- deployment --> <line x1="672" y1="462" x2="872" y2="462" stroke="#22222d"/> <text x="772" y="482" text-anchor="middle" class="t-m">DEPLOYMENT</text> <!-- on-site tile --> <rect x="668" y="494" width="100" height="84" rx="10" fill="#0b0a10" stroke="#2a2a36"/> <rect class="tile-a" x="668" y="494" width="100" height="84" rx="10" fill="rgba(157,34,255,.12)" stroke="#9d22ff"/> <path class="hw-line" d="M690,546 v-16 l10,-7 v7 l10,-7 v7 l10,-7 v7 l10,-7 v23 z"/> <path class="hw-line" d="M697,540 h6 M709,540 h6 M721,540 h4"/> <text x="718" y="568" text-anchor="middle" class="t-p">ON-SITE</text> <!-- hosted tile --> <rect x="776" y="494" width="100" height="84" rx="10" fill="#0b0a10" stroke="#2a2a36"/> <rect class="tile-b" x="776" y="494" width="100" height="84" rx="10" fill="rgba(157,34,255,.12)" stroke="#9d22ff"/> <path class="hw-line" d="M791,520 l16,-6 l16,6 l16,-6 l9,3"/> <rect x="795" y="524" width="13" height="24" rx="1.5" class="hw"/><rect x="812" y="524" width="13" height="24" rx="1.5" class="hw"/><rect x="829" y="524" width="13" height="24" rx="1.5" class="hw"/> <circle cx="799" cy="530" r="1.5" class="led"/><circle cx="816" cy="530" r="1.5" class="led g2"/><circle cx="833" cy="530" r="1.5" class="led g3"/> <circle cx="853" cy="512" r="5" class="hw-acc"/> <text x="826" y="568" text-anchor="middle" class="t-p">HOSTED · HaaS</text> <text x="772" y="598" text-anchor="middle" class="t-s dep-a">in your lab</text> <text x="772" y="598" text-anchor="middle" class="t-s dep-b">in the LNKXR facility</text> <!-- 04 evidence --> <g> <rect x="963" y="142" width="164" height="56" rx="10" fill="#0c0b12" stroke="#2a2a36"/> <text x="981" y="166" class="t-b">RESULTS</text><text x="981" y="182" class="t-s">measurements · verdicts</text> <rect x="963" y="232" width="164" height="56" rx="10" fill="#0c0b12" stroke="#2a2a36"/> <text x="981" y="256" class="t-b">TRACEABILITY</text><text x="981" y="272" class="t-s">requirement → result</text> <rect x="963" y="322" width="164" height="56" rx="10" fill="#0c0b12" stroke="#2a2a36"/> <text x="981" y="346" class="t-b">REPORT</text><text x="981" y="362" class="t-s">reviewable evidence</text> </g> <text x="1045" y="420" text-anchor="middle" class="t-s">same evidence · on-site or hosted</text> <!-- pulses (SMIL animateMotion, no JS) --> <g filter="url(#glow)"> <circle r="3.5" class="pulse"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0s"><mpath href="#p-in1"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0.5s"><mpath href="#p-in2"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="1.6s" repeatCount="indefinite" begin="1s"><mpath href="#p-in3"/></animateMotion></circle> <circle r="3" class="pulse"><animateMotion dur="1s" repeatCount="indefinite" begin="0s"><mpath href="#p-gpu"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="1.2s" repeatCount="indefinite" begin="0.3s"><mpath href="#p-c1"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="1.2s" repeatCount="indefinite" begin="0.9s"><mpath href="#p-c2"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="0s"><mpath href="#p-t1"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="0.5s"><mpath href="#p-t2"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="1s"><mpath href="#p-t3"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="1.5s"><mpath href="#p-t4"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="0.8s"><mpath href="#p-e1"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="1.3s"><mpath href="#p-e2"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="1.8s"><mpath href="#p-e3"/></animateMotion></circle> <circle r="3.5" class="pulse"><animateMotion dur="2s" repeatCount="indefinite" begin="0.3s"><mpath href="#p-e4"/></animateMotion></circle> </g> </svg> </div> <div class="kpis"> <div class="kpi"><small>VALIDATION INTENT</small><strong>Defined once</strong><span>Structured, traceable and independent of the toolchain.</span></div> <div class="kpi"><small>EXECUTION</small><strong>SIL · CHIL · HIL · LAB</strong><span>Adapters connect the intent to real controllers, real-time plants and power hardware.</span></div> <div class="kpi"><small>DEPLOYMENT</small><strong>On-site or HaaS</strong><span>Run it in your own lab, or hosted by LNKXR as hardware-as-a-service.</span></div> <div class="kpi"><small>STATUS</small><strong>In development</strong><span>MVPzer0 is building the knowledge and execution layers step by step.</span></div> </div> <div class="note">ARCHITECTURE OVERVIEW · CURRENTLY IN DEVELOPMENT</div></div>
+<div class="tech-band"><div class="tech-chip"><small>01 / SIL</small><strong>Software</strong><span>Validate algorithms before physical execution.</span></div><div class="tech-chip"><small>02 / CHIL</small><strong>Control</strong><span>Bring real controller hardware into the loop.</span></div><div class="tech-chip"><small>03 / HIL</small><strong>Real-time</strong><span>Exercise interfaces and behavior against real-time plants.</span></div><div class="tech-chip"><small>04 / LAB</small><strong>Hardware</strong><span>Move validation toward physical power hardware.</span></div><div class="tech-chip"><small>05 / EVIDENCE</small><strong>Trace</strong><span>Preserve reusable results and validation intelligence.</span></div></div>
+<div class="terminal"><div class="terminal-top">LNKXR / VALIDATION PIPELINE</div><div class="terminal-body"><span class="p">$</span> load engineering_knowledge<br><span class="p">$</span> select target <span class="w">SIL → CHIL → HIL → HARDWARE</span><br><span class="p">$</span> preserve validation_intent <span class="w">true</span><br><span class="p">$</span> vendor_lock_in <span class="w">false</span><br><span class="p">$</span> status <span class="p">FLOWING</span><span class="blink">_</span></div></div>
+<h3 class="punch">Hardware is replaceable.<br><span class="purple">Validation knowledge is not.</span></h3></div></section>
+</main>
+
+</body>
+</html>

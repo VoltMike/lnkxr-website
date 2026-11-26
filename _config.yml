@@ -1,0 +1,7 @@
+# GitHub Pages (Jekyll) – keep working files out of the published site
+exclude:
+  - designs
+  - prototypes
+  - CLAUDE.md
+  - README.md
+  - CHANGELOG.md

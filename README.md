@@ -21,6 +21,8 @@ either **on-site** at the customer or **hosted by LNKXR as Hardware-as-a-Service
 | `CNAME` | Custom domain `lnkxr.com` – **do not delete** |
 | `CLAUDE.md` | Project rules and context for Claude Code |
 | `CHANGELOG.md` | Version history and decisions |
+| `designs/` | Archive of final designs: renders + standalone component pages ([overview](designs/README.md)) |
+| `_config.yml` | Keeps docs and design archive out of the published site |
 
 No build step, no framework, no dependencies. Edit `index.html`, commit, push – GitHub Pages deploys automatically.
 
