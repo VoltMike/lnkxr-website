@@ -31,6 +31,7 @@ No build step, no framework, no dependencies. Edit `index.html`, commit, push �
 | 1 | Hero | `#top` | Logo, headline, SIL/CHIL/HIL/AI tags, grid + scanline |
 | 2 | Problem | `#vision` | "Engineering validation is fragmented." |
 | 3 | Let engineering flow | `#flow` | **Animated architecture** (see below), tech cards, terminal |
+| 3b | LNKXR HaaS NODE | `#node` | **Demonstrator hardware, under development** (see below) |
 | 4 | Hardware-as-a-Service | `#haas` | **HaaS console demo** (see below) |
 | 5 | Platform | `#platform` | Knowledge · Validation · Connect |
 | 6 | LNKXR AI | `#ai` | Extract → Structure → Validate |
@@ -55,6 +56,18 @@ Manuals             Validation intent          HIL      (rack, LEDs)          Re
 - Pulses run along the wires with SVG `<animateMotion>`; rack LEDs, waveform and the deployment tiles use CSS keyframes.
 - Four KPI tiles below: Validation intent · Execution · Deployment · Status.
 - Mobile: the diagram scrolls horizontally ("Swipe to explore →").
+
+### HaaS NODE (`#node`, CSS scoped to `#node`)
+Promotes the first **HaaS NODE demonstrator** (compact 19" unit) as *under development*.
+Built natively in HTML/CSS from the public promo slide `03_HaaS_NODE_website_promo_PUBLIC.png`
+(source: private `mvpzer0` repo, `HaaS_demonstrator/`).
+
+- Device render with blinking RUN/LINK LEDs, status display "NODE 01 · BRING-UP · IN BUILD", glow line.
+- Public function blocks only: control plane, FPGA acceleration, automotive bus, switchable DUT power,
+  one uplink per node, REST · MQTT · Web UI, single node to full rack, lock-in: none.
+- Build progress: Architecture ✓ · Demonstrator build (in progress) · Bring-up · First remote session.
+- **Disclosure rule:** never publish component names, channel counts, storage size, connector types,
+  network topology or VLAN schemes. Only function blocks, flow and API types.
 
 ### HaaS console (`#haas`, CSS scoped to `#haas`)
 A **concept preview with simulated data** of how a customer monitors and controls a hosted HIL bench.
