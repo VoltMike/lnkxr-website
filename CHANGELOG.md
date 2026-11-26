@@ -2,6 +2,13 @@
 
 ## v0.4 – Content polishing (in progress)
 
+### 2026-11-26 · HaaS NODE demonstrator
+- New section **LNKXR HaaS NODE** (`#node`): "Test hardware as a service. Without LOCK-IN."
+- Native HTML/CSS version of the public promo slide: animated 19" unit, public function blocks,
+  build progress (architecture done · demonstrator in build · bring-up · first remote session).
+- Marked **under development**; no component names or internal specs (per HaaS_demonstrator disclosure rules).
+- Navigation: added `NODE`.
+
 ### 2026-11-26 · HaaS console
 - New section **Hardware-as-a-Service** (`#haas`): "Your DUT. Our bench. Full control."
 - Glass-style console demo for a hosted HIL bench with an **11 kW / 800 V on-board charger** as example DUT:

@@ -86,7 +86,7 @@ v1.0 → Public launch
 
 ## Page sections (index.html)
 1. Hero · 2. Problem (`#vision`) · 3. Let engineering flow (`#flow`) – animated architecture SVG
-4. HaaS (`#haas`) – glass console demo · 5. Platform (`#platform`) · 6. LNKXR AI (`#ai`)
+3b. HaaS NODE (`#node`) – demonstrator hardware, under development · 4. HaaS (`#haas`) – glass console demo · 5. Platform (`#platform`) · 6. LNKXR AI (`#ai`)
 7. Why LNKXR · 8. Status (`#status`) · 9. Contact (`#contact`)
 
 Architecture model shown on the site (decided 2026-11-26):
@@ -95,7 +95,10 @@ KNOWLEDGE → LNKXR CORE (AI extract → knowledge model → validation intent)
           → SIL | CHIL | HIL | LAB/HW  (via adapters; deployed on-site or hosted/HaaS)
           → EVIDENCE (results · traceability · report)
 ```
-CSS of new components is scoped: architecture under `.arch`, console under `#haas`.
+CSS of new components is scoped: architecture under `.arch`, node under `#node`, console under `#haas`.
+
+**HaaS NODE disclosure (from mvpzer0/HaaS_demonstrator):** public = function blocks, flow, API types (REST, MQTT, web UI).
+Never public = component/board names, channel counts, storage size, connector types, rack height details, network topology/VLANs.
 
 ## Open backlog
 HTTPS enforce · www.lnkxr.com · redirect lnkxr.de/.ai → .com · LinkedIn link in footer ·
