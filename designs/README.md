@@ -21,6 +21,8 @@ It is excluded from the published site via `_config.yml`.
 | `renders/05_build-progress.png` | Build progress: Architecture ✓ · Demonstrator build · Bring-up · First remote session |
 | `renders/06_haas-console_running.png` | HaaS console during a run with phase-loss derate |
 | `renders/06b_haas-console_power-path.png` | Console power path with circuit symbols |
+| `renders/08_sequencer_fault-run.png` | Sequencer after a run with injected fault (PWR-004 FAIL, PWR-005 SKIP) |
+| `renders/08b_sequencer_mobile.png` | Sequencer on a phone (390 px) |
 
 ## Standalone components
 
@@ -31,6 +33,7 @@ Open directly in a browser; each file contains the full site CSS and one section
 | `components/architecture-flow.html` | `#flow` | Knowledge → LNKXR core (+ on-prem AI compute) → SIL / CHIL / HIL / LAB/HW → Evidence; deployment On-site / Hosted · HaaS |
 | `components/haas-node-and-rack.html` | `#node` | HaaS NODE demonstrator + "From demonstrator to HIL rack" animation + build progress |
 | `components/haas-console.html` | `#haas` | Interactive glass console (OBC 11 kW / 800 V, simulated data) |
+| `components/sequencer.html` | `#sequencer` | Clickable sequencer run demo (power_up_smoke.json, simulated data) |
 
 ## Design decisions (2026-11-26)
 

@@ -35,6 +35,7 @@ No build step, no framework, no dependencies. Edit `index.html`, commit, push �
 | 3 | Let engineering flow | `#flow` | **Animated architecture** (see below), tech cards, terminal |
 | 3b | LNKXR HaaS NODE | `#node` | **Demonstrator hardware, under development** (see below) |
 | 4 | Hardware-as-a-Service | `#haas` | **HaaS console demo** (see below) |
+| 4b | LNKXR Sequencer | `#sequencer` | **Sequencer run demo** (see below) |
 | 5 | Platform | `#platform` | Knowledge · Validation · Connect |
 | 6 | LNKXR AI | `#ai` | Extract → Structure → Validate |
 | 7 | Why LNKXR | – | "Your validation knowledge should outlive your toolchain." |
@@ -96,6 +97,23 @@ Example DUT: **on-board charger (OBC), 11 kW, 800 V**.
 - Values are physically plausible (≈16.6 A per phase and ≈13.8 A DC at 11 kW / 800 V, η ≈ 95–96 %).
 - Labelled **"Concept preview · simulated data · hosted benches in development"** – keep it that way.
 - `prefers-reduced-motion` stops all decorative animation.
+
+### Sequencer (`#sequencer`, CSS scoped to `#sequencer`)
+Run demo of the hardware-neutral test sequencer from MVPzer0, labelled **"Concept preview · simulated data"**.
+It replays the real example sequence `power_up_smoke.json` (5 steps: `set_output`, `wait`, `measure`,
+`assert_range`, `assert_equal`) with the runner's behaviour: live status per step, stop at the first
+failure, following steps SKIP.
+
+| Element | Content |
+|---|---|
+| Top bar | Targets: Simulator (active) · HaaS NODE in development · HIL rack planned |
+| Controls | RUN · PAUSE/RESUME · STOP · "Inject fault" (DC bus 53.1 V → PWR-004 FAIL) |
+| Steps table | ID, step, action, detail, status, time (scrolls horizontally on mobile) |
+| Side panel | PASS/FAIL/SKIP counters, DC bus gauge with 45–52 V band, output state, event log |
+| Below | Three cards: plain JSON sequences · adapter interface · traceable evidence |
+
+- ~40 lines of inline vanilla JS, no libraries, no network requests.
+- Claim matches MVPzer0 reality: sequencer core with **simulator adapter only**; hardware adapters in development.
 
 ## Design system
 
