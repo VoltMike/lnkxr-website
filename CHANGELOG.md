@@ -2,6 +2,11 @@
 
 ## v0.4 – Content polishing (in progress)
 
+### 2026-11-26 · Design archive
+- `designs/` with renders (full page desktop/mobile, every new section, journey key frames, running console)
+  and standalone component pages; design decisions and animation reference in `designs/README.md`.
+- `_config.yml` excludes `designs/`, `prototypes/` and the Markdown docs from the published site.
+
 ### 2026-11-26 · First demonstrator rack: one node
 - HIL rack in the journey scene now holds exactly **one HaaS NODE** (the one from the workbench) plus network,
   I/O · fault injection, source · load and a larger DUT drawer. Additional node slots removed.

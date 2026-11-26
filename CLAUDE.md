@@ -17,6 +17,8 @@ datenschutz.html
 CNAME             # must contain: lnkxr.com — never delete
 README.md         # structure, sections, components, how to edit/deploy
 CHANGELOG.md      # version history and decisions
+designs/          # archive of final designs (renders + standalone components) – update after design changes
+_config.yml       # excludes docs/designs from GitHub Pages
 ```
 
 ## Hard rules (do not reopen without new evidence)
