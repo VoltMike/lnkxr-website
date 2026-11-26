@@ -2,6 +2,13 @@
 
 ## v0.4 – Content polishing (in progress)
 
+### 2026-11-26 · Sequencer demo
+- New section **LNKXR Sequencer** (`#sequencer`): "Define the test once. Run it anywhere."
+- Clickable run demo of the MVPzer0 test sequencer with the real example sequence `power_up_smoke.json`:
+  RUN/PAUSE/STOP, fault injection, live step status, PASS/FAIL/SKIP, DC bus gauge, event log.
+- Labelled "Concept preview · simulated data"; targets shown honestly (simulator active, HaaS NODE in development, HIL rack planned).
+- Navigation: added `SEQUENCER`. Anchor `#sequencer` (not `#seq`, which the HaaS console already uses).
+
 ### 2026-11-26 · Design archive
 - `designs/` with renders (full page desktop/mobile, every new section, journey key frames, running console)
   and standalone component pages; design decisions and animation reference in `designs/README.md`.

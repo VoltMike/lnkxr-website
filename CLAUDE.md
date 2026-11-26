@@ -26,14 +26,14 @@ _config.yml       # excludes docs/designs from GitHub Pages
 - Claim stays **Validation without LOCK-IN.** (exact casing, trailing period)
 - Purple X identity stays. v0.3 stays the visual baseline.
 - Plain HTML/CSS, minimal JS. No frameworks (React/Next/etc.), no WordPress, no build step.
-  Exception: the HaaS console demo uses ~100 lines of inline vanilla JS for its simulation (no libraries, no network).
+  Exception: the HaaS console demo (~100 lines) and the Sequencer demo (~40 lines) use inline vanilla JS for their simulations (no libraries, no network).
 - No tracking: no analytics, no Meta Pixel, no cookies banner, no newsletter, no contact form, no external fonts/embeds. Contact via `mailto:hello@lnkxr.com`.
 - Do not call LNKXR a GmbH/UG or any legal entity — none exists yet.
 - AI is a product layer, not the company identity.
 - Small, meaningful commits. One issue/section at a time.
 - **Offering focus: SIL, CHIL, HIL and LAB/HW. Pure simulation (SIM) is NOT part of the offering** — too much competition from established vendors. Do not reintroduce "simulation" as an execution target.
 - **Deployment model: on-site at the customer, or hosted by LNKXR as Hardware-as-a-Service (HaaS).**
-- Demos must be labelled honestly (e.g. "Concept preview · simulated data"). Never present the HaaS console as a live service.
+- Demos must be labelled honestly (e.g. "Concept preview · simulated data"). Never present the HaaS console or the Sequencer demo as a live service.
 
 ## Design system (CSS variables in index.html)
 | Role | Hex |
@@ -88,7 +88,7 @@ v1.0 → Public launch
 
 ## Page sections (index.html)
 1. Hero · 2. Problem (`#vision`) · 3. Let engineering flow (`#flow`) – animated architecture SVG
-3b. HaaS NODE (`#node`) – demonstrator hardware, under development · 4. HaaS (`#haas`) – glass console demo · 5. Platform (`#platform`) · 6. LNKXR AI (`#ai`)
+3b. HaaS NODE (`#node`) – demonstrator hardware, under development · 4. HaaS (`#haas`) – glass console demo · 4b. Sequencer (`#sequencer`) – run demo of the hardware-neutral test sequencer · 5. Platform (`#platform`) · 6. LNKXR AI (`#ai`)
 7. Why LNKXR · 8. Status (`#status`) · 9. Contact (`#contact`)
 
 Architecture model shown on the site (decided 2026-11-26):
@@ -97,7 +97,8 @@ KNOWLEDGE → LNKXR CORE (AI extract → knowledge model → validation intent)
           → SIL | CHIL | HIL | LAB/HW  (via adapters; deployed on-site or hosted/HaaS)
           → EVIDENCE (results · traceability · report)
 ```
-CSS of new components is scoped: architecture under `.arch`, node under `#node`, console under `#haas`.
+CSS of new components is scoped: architecture under `.arch`, node under `#node`, console under `#haas`, sequencer under `#sequencer`.
+Note: `#seq` is already used inside the HaaS console – do not reuse it.
 
 **HaaS NODE disclosure (from mvpzer0/HaaS_demonstrator):** public = function blocks, flow, API types (REST, MQTT, web UI).
 Never public = component/board names, channel counts, storage size, connector types, rack height details, network topology/VLANs.
