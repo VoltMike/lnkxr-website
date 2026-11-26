@@ -2,6 +2,11 @@
 
 ## v0.4 – Content polishing (in progress)
 
+### 2026-11-26 · HIL rack journey
+- New animated scene in `#node`: the HaaS NODE demonstrator moves from the workbench into a full HIL rack
+  with network, node slots, I/O · fault injection, source · load and a DUT drawer that opens.
+- Framed as vision ("One node today … in one rack next"), no internal specs.
+
 ### 2026-11-26 · HaaS NODE demonstrator
 - New section **LNKXR HaaS NODE** (`#node`): "Test hardware as a service. Without LOCK-IN."
 - Native HTML/CSS version of the public promo slide: animated 19" unit, public function blocks,

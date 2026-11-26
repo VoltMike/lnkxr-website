@@ -65,6 +65,11 @@ Built natively in HTML/CSS from the public promo slide `03_HaaS_NODE_website_pro
 - Device render with blinking RUN/LINK LEDs, status display "NODE 01 · BRING-UP · IN BUILD", glow line.
 - Public function blocks only: control plane, FPGA acceleration, automotive bus, switchable DUT power,
   one uplink per node, REST · MQTT · Web UI, single node to full rack, lock-in: none.
+- **"From demonstrator to HIL rack"** scene (inline SVG, CSS keyframes, 10 s loop): the node lifts off a workbench
+  ("Today · Demonstrator"), travels along a dashed trail and slides into the free slot of a full HIL rack
+  ("Next · HIL rack"). The rack shows network uplink, three HaaS NODE slots, I/O · fault injection,
+  source · load (display 800.2 V) and a **DUT drawer** that opens to reveal the DUT (OBC). With
+  `prefers-reduced-motion` the node is shown in the rack, without motion.
 - Build progress: Architecture ✓ · Demonstrator build (in progress) · Bring-up · First remote session.
 - **Disclosure rule:** never publish component names, channel counts, storage size, connector types,
   network topology or VLAN schemes. Only function blocks, flow and API types.
