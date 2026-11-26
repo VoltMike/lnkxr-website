@@ -10,12 +10,13 @@ The site must never claim capabilities MVPzer0 does not actually have.
 
 ## Files
 ```
-index.html        # v0.3 "Technical Motion" – preferred visual baseline, keep it
+index.html        # single-page site (v0.4): v0.3 visual baseline + architecture flow + HaaS console
 lnkxr-logo.png
 impressum.html
 datenschutz.html
 CNAME             # must contain: lnkxr.com — never delete
-README.md
+README.md         # structure, sections, components, how to edit/deploy
+CHANGELOG.md      # version history and decisions
 ```
 
 ## Hard rules (do not reopen without new evidence)
@@ -23,10 +24,14 @@ README.md
 - Claim stays **Validation without LOCK-IN.** (exact casing, trailing period)
 - Purple X identity stays. v0.3 stays the visual baseline.
 - Plain HTML/CSS, minimal JS. No frameworks (React/Next/etc.), no WordPress, no build step.
+  Exception: the HaaS console demo uses ~100 lines of inline vanilla JS for its simulation (no libraries, no network).
 - No tracking: no analytics, no Meta Pixel, no cookies banner, no newsletter, no contact form, no external fonts/embeds. Contact via `mailto:hello@lnkxr.com`.
 - Do not call LNKXR a GmbH/UG or any legal entity — none exists yet.
 - AI is a product layer, not the company identity.
 - Small, meaningful commits. One issue/section at a time.
+- **Offering focus: SIL, CHIL, HIL and LAB/HW. Pure simulation (SIM) is NOT part of the offering** — too much competition from established vendors. Do not reintroduce "simulation" as an execution target.
+- **Deployment model: on-site at the customer, or hosted by LNKXR as Hardware-as-a-Service (HaaS).**
+- Demos must be labelled honestly (e.g. "Concept preview · simulated data"). Never present the HaaS console as a live service.
 
 ## Design system (CSS variables in index.html)
 | Role | Hex |
@@ -40,6 +45,9 @@ README.md
 | Deep purple (`--purple3`) | #5F0AA8 |
 | Surface 2 | #0C0B12 |
 | Lines/borders (`--line`) | #20202B |
+
+Status colours (HaaS console only, scoped to `#haas`): ok #5FE3A1 · warn #FFB547 · bad #FF4D6D.
+Glass panels: translucent white gradient + 1px white/10% border + `backdrop-filter: blur(18px)`.
 
 Font stack: `Inter, ui-sans-serif, system-ui, -apple-system, …` (no external font loading).
 Max content width: 1180px.
@@ -55,6 +63,7 @@ Responsive; respect `prefers-reduced-motion`.
 - Value: Your validation knowledge should outlive your toolchain.
 - AI: Engineering knowledge shouldn't end in documents. / Make engineering knowledge executable.
 - Hero (current): One validation flow. Any tool. Any hardware.
+- HaaS: Your DUT. Our bench. Full control.
 - Positioning: Vendor-neutral validation for power electronics and embedded systems.
 - Contact: Validation should move with engineering.
 
@@ -66,7 +75,7 @@ no fake customers, testimonials or team. "Currently in development" is fine.
 v0.1 ✅ Initial prototype
 v0.2 ✅ Hero & flow
 v0.3 ✅ Technical motion (+ legal pages already added)
-v0.4 ⏭ Content polishing   ← current
+v0.4 ⏭ Content polishing   ← current (architecture flow ✅, HaaS console ✅)
 v0.6 → LinkedIn + contact
 v1.0 → Public launch
 ```
@@ -75,24 +84,25 @@ v1.0 → Public launch
 1. Hero  2. Problem  3. Vision/Flow  4. SIL/CHIL/HIL/Lab  5. Platform
 6. LNKXR AI (align with MVPzer0)  7. Why LNKXR  8. Development status  9. Contact
 
-### Key content question for v0.4
-Current flow is linear: `KNOWLEDGE → SIMULATION → SIL → CHIL → HIL → HARDWARE`.
-Likely more accurate model (validation intent mapped to interchangeable targets):
+## Page sections (index.html)
+1. Hero · 2. Problem (`#vision`) · 3. Let engineering flow (`#flow`) – animated architecture SVG
+4. HaaS (`#haas`) – glass console demo · 5. Platform (`#platform`) · 6. LNKXR AI (`#ai`)
+7. Why LNKXR · 8. Status (`#status`) · 9. Contact (`#contact`)
+
+Architecture model shown on the site (decided 2026-11-26):
 ```
-ENGINEERING KNOWLEDGE
-        ↓
-VALIDATION INTENT
-        ↓
-[ SIM | SIL | CHIL | HIL | LAB/HW ]
-        ↓
-EVIDENCE
+KNOWLEDGE → LNKXR CORE (AI extract → knowledge model → validation intent)
+          → SIL | CHIL | HIL | LAB/HW  (via adapters; deployed on-site or hosted/HaaS)
+          → EVIDENCE (results · traceability · report)
 ```
+CSS of new components is scoped: architecture under `.arch`, console under `#haas`.
 
 ## Open backlog
 HTTPS enforce · www.lnkxr.com · redirect lnkxr.de/.ai → .com · LinkedIn link in footer ·
 favicon from purple X · OpenGraph/social image · v0.4 copy · v1.0 launch checklist
 
 ## MVPzer0 reality (for honest copy)
-Engineering PDFs → text → local Qwen 2.5 32B (vLLM on DGX Spark, OpenClaw) → structured knowledge → validation targets/test cases.
-Manual extraction works; reproducible baseline (MVPZ-011) and schema-enforced JSON extraction are next.
-Execution on SIL/CHIL/HIL hardware is **future** — describe it as vision, not as shipped.
+This repo is public: keep internal tooling details out of it.
+- Working: AI-assisted extraction of engineering documents with a local LLM on on-prem GPU compute (manual baseline).
+- Working: hardware-neutral test sequencer with adapter interface (simulator adapter only).
+- Future: execution on real SIL/CHIL/HIL/LAB hardware and hosted HaaS benches — describe as vision, not as shipped.
