@@ -2,6 +2,10 @@
 
 ## v0.4 – Content polishing (in progress)
 
+### 2026-11-26 · First demonstrator rack: one node
+- HIL rack in the journey scene now holds exactly **one HaaS NODE** (the one from the workbench) plus network,
+  I/O · fault injection, source · load and a larger DUT drawer. Additional node slots removed.
+
 ### 2026-11-26 · HIL rack journey
 - New animated scene in `#node`: the HaaS NODE demonstrator moves from the workbench into a full HIL rack
   with network, node slots, I/O · fault injection, source · load and a DUT drawer that opens.
